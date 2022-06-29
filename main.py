@@ -1,4 +1,4 @@
-from flask import Flask, jsonify # jsonify is to convert python dict to json
+from flask import Flask, jsonify, request # jsonify is to convert python dict to json
 from flask_restful import Resource, Api
 
 # initial the flask app and assign as an API
@@ -8,16 +8,19 @@ api = Api(app)
 '''
 The class acts as an API resource
 '''
-class status(Resource):    
-     def get(self):
-         try:
-            return {'data': 'Api running'}
-         except(error): 
-            return {'data': error}
+@app.route('/', methods=['GET'])  
+def getStatus():
+    try:
+        return {'data': 'Api running'}
+    except(error): 
+        return {'data': error}
 
-class Sum(Resource):
-    def get(self, a, b):
-        return jsonify({'data': a+b})
+@app.route('/add/', methods=['POST'])
+def getAdd():
+    req_json = request.json
+    num1 = req_json['num1']
+    num2 = req_json['num2']
+    return jsonify({"result": num1.type()})
 
 # add it in the api resources
 api.add_resource(status,'/')
