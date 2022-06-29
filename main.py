@@ -12,19 +12,20 @@ The class acts as an API resource
 def getStatus():
     try:
         return {'data': 'Api running'}
-    except(error): 
-        return {'data': error}
+    except Exception: 
+        return {'data': "something goes wrong here!"}
 
 @app.route('/add/', methods=['POST'])
 def getAdd():
-    req_json = request.json
-    num1 = req_json['num1']
-    num2 = req_json['num2']
-    return jsonify({"result": num1.type()})
+    try:
+        req_json = request.json
+        num1 = req_json['num1']
+        num2 = req_json['num2']
+        return jsonify({"result": num1 + num2})
+    except Exception:
+        return {"error": "type is not correct"}
 
-# add it in the api resources
-api.add_resource(status,'/')
-api.add_resource(Sum,'/add/<int:a>,<int:b>')
+    
 
 '''
 There is a concept of Cross-Origin in case of APIs’.
